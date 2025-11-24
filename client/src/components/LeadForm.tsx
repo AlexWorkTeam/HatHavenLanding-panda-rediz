@@ -151,7 +151,7 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
           </div>
 
           <div className="text-center mb-6 sm:mb-8">
-            <p className="text-sm sm:text-base text-success leading-relaxed font-medium">
+            <p className="text-sm sm:text-base text-success leading-relaxed font-bold">
               Оставьте заявку, и наши юристы проанализируют вашу ситуацию и предложат план действий.
             </p>
           </div>
