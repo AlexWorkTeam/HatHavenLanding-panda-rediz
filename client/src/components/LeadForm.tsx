@@ -159,10 +159,15 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                     <FormLabel>Телефон</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="1234567890"
                         {...field}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '');
+                          field.onChange(value);
+                        }}
                         data-testid="input-phone"
                         className="h-12"
+                        maxLength={15}
                       />
                     </FormControl>
                     <FormMessage />

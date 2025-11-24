@@ -21,7 +21,11 @@ export type User = typeof users.$inferSelect;
 export const leadSchema = z.object({
   first_name: z.string().min(1, "Имя обязательно"),
   last_name: z.string().min(1, "Фамилия обязательна"),
-  phone: z.string().min(1, "Телефон обязателен"),
+  phone: z.string()
+    .min(1, "Телефон обязателен")
+    .regex(/^\d+$/, "Телефон должен содержать только цифры")
+    .min(10, "Телефон должен содержать минимум 10 цифр")
+    .max(15, "Телефон должен содержать максимум 15 цифр"),
   email: z.string().email("Некорректный email"),
   companyType: z.string(),
   fraudDate: z.string(),
