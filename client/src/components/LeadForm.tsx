@@ -141,7 +141,7 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
               <h2 className="text-2xl sm:text-3xl font-bold text-card-foreground mb-3 sm:mb-4 px-2">
                 Вероятность возврата: <span className="text-success">{recoveryProbability}%</span>
               </h2>
-              <p className="text-muted-foreground text-sm sm:text-base px-2 leading-relaxed">
+              <p className="text-muted-foreground text-xs sm:text-sm px-2 leading-relaxed">
                 На основе ваших ответов мы подготовили стартовый план действий.
                 <br className="hidden sm:block" />
                 <span className="sm:hidden"> </span>
