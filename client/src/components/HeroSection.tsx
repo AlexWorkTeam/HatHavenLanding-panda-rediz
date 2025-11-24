@@ -93,16 +93,15 @@ export default function HeroSection({ onStartQuiz }: HeroSectionProps) {
             <Button
               onClick={onStartQuiz}
               size="lg"
-              className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 font-bold uppercase tracking-wide bg-gradient-to-r from-accent to-secondary hover:scale-105 transition-all duration-300 shadow-2xl mb-4 sm:mb-6 w-full sm:w-auto max-w-md mx-auto min-h-14"
+              className="text-sm sm:text-lg px-4 sm:px-8 py-5 sm:py-6 font-bold uppercase tracking-wide bg-gradient-to-r from-accent to-secondary hover:scale-105 transition-all duration-300 shadow-2xl mb-4 sm:mb-6 w-full sm:w-auto max-w-md mx-auto min-h-14"
               data-testid="button-start-quiz"
             >
-              <span className="hidden sm:inline">🔥 Можно ли вернуть мои деньги? →</span>
-              <span className="sm:hidden">🔥 Узнать, можно ли вернуть деньги →</span>
+              🔥 Можно ли вернуть мои деньги? →
             </Button>
 
             <p className="text-sm sm:text-base text-primary-foreground/80 mb-2 px-4 leading-relaxed">
-              Бесплатная оценка за 24 часа<br className="sm:hidden" />
-              <span className="sm:hidden"> </span><span className="hidden sm:inline"> | </span>
+              Бесплатная оценка за 24 часа |<br className="sm:hidden" />
+              <span className="hidden sm:inline"> </span>
               Платите только с результата
             </p>
             
