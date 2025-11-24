@@ -21,6 +21,26 @@ interface LeadFormProps {
   isPending?: boolean;
 }
 
+function formatPhoneNumber(value: string): string {
+  const digits = value.replace(/\D/g, '');
+  
+  if (digits.length === 0) return '';
+  
+  if (digits.length <= 3) {
+    return `(${digits}`;
+  }
+  
+  if (digits.length <= 6) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  }
+  
+  if (digits.length <= 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  
+  return `+${digits.slice(0, 1)} (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 11)}`;
+}
+
 // Calculate recovery probability based on quiz answers
 function calculateRecoveryProbability(quizData: LeadFormProps['quizData']): number {
   let probability = 75; // Base probability
@@ -156,18 +176,19 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Телефон</FormLabel>
+                    <FormLabel>Телефон (США)</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="1234567890"
-                        {...field}
+                        placeholder="(555) 123-4567"
+                        value={field.value ? formatPhoneNumber(field.value) : ''}
                         onChange={(e) => {
                           const value = e.target.value.replace(/\D/g, '');
-                          field.onChange(value);
+                          if (value.length <= 11) {
+                            field.onChange(value);
+                          }
                         }}
                         data-testid="input-phone"
                         className="h-12"
-                        maxLength={15}
                       />
                     </FormControl>
                     <FormMessage />

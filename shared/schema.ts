@@ -23,9 +23,11 @@ export const leadSchema = z.object({
   last_name: z.string().min(1, "Фамилия обязательна"),
   phone: z.string()
     .min(1, "Телефон обязателен")
-    .regex(/^\d+$/, "Телефон должен содержать только цифры")
-    .min(10, "Телефон должен содержать минимум 10 цифр")
-    .max(15, "Телефон должен содержать максимум 15 цифр"),
+    .regex(/^1?\d{10}$/, "Введите корректный номер США (10 цифр)")
+    .refine(val => {
+      const digits = val.replace(/\D/g, '');
+      return digits.length === 10 || (digits.length === 11 && digits.startsWith('1'));
+    }, "Введите корректный номер США"),
   email: z.string().email("Некорректный email"),
   companyType: z.string(),
   fraudDate: z.string(),
