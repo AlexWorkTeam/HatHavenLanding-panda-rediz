@@ -17,7 +17,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Append to leads_log.txt
       const logEntry = `
 [${new Date().toISOString()}]
-Name: ${lead.full_name}
+Name: ${lead.first_name} ${lead.last_name}
 Phone: ${lead.phone}
 Email: ${lead.email}
 Quiz Answers:
@@ -34,10 +34,10 @@ Quiz Answers:
       await fs.appendFile(logPath, logEntry);
       
       // Send to webhook
-      const webhookUrl = "https://hook.eu2.make.com/mjdxoefdh8c4itgjpirwchafiyhaqixk";
+      const webhookUrl = "https://n8n.srv989148.hstgr.cloud/webhook/push-lead";
       const webhookPayload = {
         email: lead.email,
-        full_name: lead.full_name,
+        full_name: `${lead.first_name} ${lead.last_name}`,
         landing: "legal-refund.replit.app", // todo: get actual domain
         country: "US",
         landing_name: "legal-refund-us-ru",

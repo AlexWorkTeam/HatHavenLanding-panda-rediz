@@ -24,3 +24,68 @@ Quiz Answers:
   - Payment Method: Кредитная/дебетовая карта
   - Documentation: Да, есть оригиналы
 -------------------
+
+[2025-11-24T19:11:17.027Z]
+Name: undefined
+Phone: 11231231231
+Email: test_0023240002@204.com
+Quiz Answers:
+  - Company Type: Букмекер
+  - Fraud Date: 6-12 месяцев назад
+  - Money Status: Счёт обнулён
+  - Amount: До $5,000
+  - Payment Method: ACH Transfer
+  - Documentation: Есть только переписка
+-------------------
+
+[2025-11-24T19:12:52.812Z]
+Name: undefined
+Phone: 13145645234
+Email: 34243123@kdjsfhjk.com
+Quiz Answers:
+  - Company Type: Букмекер
+  - Fraud Date: Менее 3 месяцев назад
+  - Money Status: Счёт обнулён
+  - Amount: $25,000 - $100,000
+  - Payment Method: Wire Transfer
+  - Documentation: Есть только переписка
+-------------------
+
+[2025-11-24T19:16:25.253Z]
+Name: undefined
+Phone: 13453453453
+Email: 234test_0020002@204.com
+Quiz Answers:
+  - Company Type: Онлайн-казино
+  - Fraud Date: 6-12 месяцев назад
+  - Money Status: Счёт обнулён
+  - Amount: $25,000 - $100,000
+  - Payment Method: ACH Transfer
+  - Documentation: Есть только переписка
+-------------------
+
+[2025-11-24T19:31:28.044Z]
+Name: undefined
+Phone: 14534534535
+Email: test_0020002@204.com
+Quiz Answers:
+  - Company Type: Букмекер
+  - Fraud Date: 6-12 месяцев назад
+  - Money Status: Мошенники не выходят на связь
+  - Amount: $25,000 - $100,000
+  - Payment Method: ACH Transfer
+  - Documentation: Есть электронные копии
+-------------------
+
+[2025-11-24T20:44:06.483Z]
+Name: Frankie Milton
+Phone: 12342342342
+Email: 2test_0020002@204.com
+Quiz Answers:
+  - Company Type: Онлайн-казино
+  - Fraud Date: 6-12 месяцев назад
+  - Money Status: Счёт обнулён
+  - Amount: $25,000 - $100,000
+  - Payment Method: Wire Transfer
+  - Documentation: Есть только переписка
+-------------------
