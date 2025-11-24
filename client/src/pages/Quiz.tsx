@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -106,6 +106,7 @@ export default function Quiz() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(6).fill(""));
   const [showLeadForm, setShowLeadForm] = useState(false);
+  const autoAdvanceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const submitLead = useMutation({
     mutationFn: async (data: Lead) => {
@@ -127,10 +128,26 @@ export default function Quiz() {
     },
   });
 
+  useEffect(() => {
+    return () => {
+      if (autoAdvanceTimeout.current) {
+        clearTimeout(autoAdvanceTimeout.current);
+      }
+    };
+  }, []);
+
   const handleSelectOption = (optionTitle: string) => {
     const newAnswers = [...answers];
     newAnswers[currentStep] = optionTitle;
     setAnswers(newAnswers);
+
+    if (autoAdvanceTimeout.current) {
+      clearTimeout(autoAdvanceTimeout.current);
+    }
+
+    autoAdvanceTimeout.current = setTimeout(() => {
+      handleNext();
+    }, 500);
   };
 
   const handleNext = () => {
