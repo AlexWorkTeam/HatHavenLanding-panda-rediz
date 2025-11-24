@@ -100,12 +100,7 @@ export default function QuizStep({
                 className="w-full sm:w-auto text-base sm:text-lg font-bold uppercase tracking-wide bg-gradient-to-r from-accent to-secondary hover:scale-105 transition-all duration-300 order-1 sm:order-2 min-h-12"
                 data-testid="button-next"
               >
-                <span className="hidden sm:inline">
-                  {step === totalSteps ? "Узнать результат →" : `Продолжить → Осталось ${totalSteps - step} вопроса`}
-                </span>
-                <span className="sm:hidden">
-                  {step === totalSteps ? "Узнать результат →" : "Продолжить →"}
-                </span>
+                {step === totalSteps ? "Узнать результат →" : "Продолжить →"}
               </Button>
             </div>
           </div>
