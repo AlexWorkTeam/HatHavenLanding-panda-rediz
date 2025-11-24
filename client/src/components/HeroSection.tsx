@@ -96,7 +96,7 @@ export default function HeroSection({ onStartQuiz }: HeroSectionProps) {
               className="text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 font-bold uppercase tracking-wide bg-gradient-to-r from-accent to-secondary hover:scale-105 transition-all duration-300 shadow-2xl mb-4 sm:mb-6 w-full sm:w-auto max-w-md mx-auto min-h-14"
               data-testid="button-start-quiz"
             >
-              <span className="hidden sm:inline">🔥 Узнать, можно ли вернуть мои деньги →</span>
+              <span className="hidden sm:inline">🔥 Можно ли вернуть мои деньги? →</span>
               <span className="sm:hidden">🔥 Узнать, можно ли вернуть деньги →</span>
             </Button>
 
