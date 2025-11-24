@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
+import { randomUUID } from 'crypto';
 
 // Lead schema (inline to avoid import issues)
 const leadSchema = z.object({
@@ -27,7 +28,7 @@ const leadSchema = z.object({
 const leads: Array<any> = [];
 
 function createLead(data: z.infer<typeof leadSchema>) {
-  const id = crypto.randomUUID();
+  const id = randomUUID();
   const lead = { ...data, id, createdAt: new Date() };
   leads.push(lead);
   return lead;
