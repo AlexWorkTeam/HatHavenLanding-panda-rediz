@@ -23,27 +23,27 @@ interface LeadFormProps {
 
 // Calculate recovery probability based on quiz answers
 function calculateRecoveryProbability(quizData: LeadFormProps['quizData']): number {
-  let probability = 50; // Base probability
+  let probability = 75; // Base probability
 
   // Company type factor
   if (quizData.companyType === "Криптобиржа" || quizData.companyType === "Forex-брокер") {
-    probability += 15;
+    probability += 8;
   } else if (quizData.companyType === "Финансовая пирамида") {
-    probability += 10;
+    probability += 5;
   }
 
   // Timeframe factor
   if (quizData.fraudDate === "Менее 6 месяцев") {
-    probability += 20;
-  } else if (quizData.fraudDate === "6-12 месяцев") {
     probability += 10;
+  } else if (quizData.fraudDate === "6-12 месяцев") {
+    probability += 5;
   }
 
   // Documentation factor
   if (quizData.documentation === "Да, есть все документы") {
-    probability += 15;
+    probability += 7;
   } else if (quizData.documentation === "Частично") {
-    probability += 5;
+    probability += 3;
   }
 
   // Cap at 95% to be realistic
