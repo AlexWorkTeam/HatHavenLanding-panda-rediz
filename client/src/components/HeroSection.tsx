@@ -53,7 +53,7 @@ export default function HeroSection({ onStartQuiz }: HeroSectionProps) {
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${heroImage})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary/20" />
       </div>
 
       {/* Content */}

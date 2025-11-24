@@ -49,11 +49,11 @@ export default function QuizStep({
               </div>
 
               {image && (
-                <div className="hidden md:block">
+                <div className="hidden md:flex items-center justify-center">
                   <img
                     src={image}
                     alt="Quiz illustration"
-                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                    className="w-full rounded-lg shadow-lg"
                   />
                 </div>
               )}
