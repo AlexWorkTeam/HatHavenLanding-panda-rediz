@@ -79,21 +79,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
     
     console.log('Sending webhook to:', webhookUrl);
+    console.log('Webhook payload:', JSON.stringify(webhookPayload, null, 2));
     
-    // Send webhook (don't await to avoid blocking)
-    fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(webhookPayload),
-    })
-      .then(response => {
-        console.log('Webhook response status:', response.status);
-        return response.text();
-      })
-      .then(text => console.log('Webhook response:', text))
-      .catch(err => {
-        console.error("Webhook error:", err);
+    // Send webhook with await to ensure it completes before function ends
+    try {
+      const webhookResponse = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(webhookPayload),
       });
+      
+      const webhookText = await webhookResponse.text();
+      console.log('Webhook response status:', webhookResponse.status);
+      console.log('Webhook response:', webhookText);
+      
+      if (!webhookResponse.ok) {
+        console.error('Webhook returned non-OK status:', webhookResponse.status, webhookText);
+      }
+    } catch (webhookError: any) {
+      console.error("Webhook error:", webhookError);
+      console.error("Webhook error message:", webhookError.message);
+      console.error("Webhook error stack:", webhookError.stack);
+      // Don't fail the request if webhook fails
+    }
     
     return res.status(200).json({ success: true, lead });
   } catch (error: any) {
