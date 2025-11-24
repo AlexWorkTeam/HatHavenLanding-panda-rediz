@@ -1,0 +1,13 @@
+
+[2025-11-24T09:51:15.958Z]
+Name: undefined
+Phone: 19998887766
+Email: test@mail.ru
+Quiz Answers:
+  - Company Type: Криптобиржа или кошелёк
+  - Fraud Date: Более 3 лет назад
+  - Money Status: Мошенники не выходят на связь
+  - Amount: Не помню точную сумму
+  - Payment Method: Платёжные приложения
+  - Documentation: Ничего не сохранилось
+-------------------
