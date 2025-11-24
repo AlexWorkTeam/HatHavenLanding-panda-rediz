@@ -302,6 +302,12 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                 />
               </div>
 
+              <div className="text-center py-4">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                  Оставьте заявку, и наши юристы проанализируют вашу ситуацию и предложат план действий.
+                </p>
+              </div>
+
               <Button
                 type="submit"
                 size="lg"
