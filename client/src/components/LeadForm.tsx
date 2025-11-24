@@ -25,25 +25,46 @@ interface LeadFormProps {
 function calculateRecoveryProbability(quizData: LeadFormProps['quizData']): number {
   let probability = 75; // Base probability
 
-  // Company type factor
-  if (quizData.companyType === "Криптобиржа" || quizData.companyType === "Forex-брокер") {
+  // Company type factor (up to +8%)
+  if (quizData.companyType === "Криптобиржа или кошелёк") {
     probability += 8;
-  } else if (quizData.companyType === "Финансовая пирамида") {
-    probability += 5;
-  }
-
-  // Timeframe factor
-  if (quizData.fraudDate === "Менее 6 месяцев") {
-    probability += 10;
-  } else if (quizData.fraudDate === "6-12 месяцев") {
-    probability += 5;
-  }
-
-  // Documentation factor
-  if (quizData.documentation === "Да, есть все документы") {
+  } else if (quizData.companyType === "Форекс/Бинарные опционы") {
     probability += 7;
-  } else if (quizData.documentation === "Частично") {
+  } else if (quizData.companyType === "Инвестиционная компания") {
+    probability += 6;
+  } else {
+    probability += 4;
+  }
+
+  // Timeframe factor (up to +10%)
+  if (quizData.fraudDate === "Менее 3 месяцев назад") {
+    probability += 10;
+  } else if (quizData.fraudDate === "3-6 месяцев назад") {
+    probability += 8;
+  } else if (quizData.fraudDate === "6-12 месяцев назад") {
+    probability += 5;
+  } else if (quizData.fraudDate === "1-3 года назад") {
+    probability += 2;
+  }
+
+  // Documentation factor (up to +7%)
+  if (quizData.documentation === "Да, есть оригиналы") {
+    probability += 7;
+  } else if (quizData.documentation === "Есть электронные копии") {
+    probability += 5;
+  } else if (quizData.documentation === "Есть только переписка") {
+    probability += 2;
+  }
+
+  // Payment method factor (up to +3%)
+  if (
+    quizData.paymentMethod === "Кредитная/дебетовая карта" ||
+    quizData.paymentMethod === "Wire Transfer" ||
+    quizData.paymentMethod === "ACH Transfer"
+  ) {
     probability += 3;
+  } else if (quizData.paymentMethod === "Криптовалюта") {
+    probability += 1;
   }
 
   // Cap at 95% to be realistic
