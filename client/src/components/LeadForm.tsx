@@ -16,17 +16,49 @@ import { leadSchema, type Lead } from "@shared/schema";
 import { Shield, TrendingUp, DollarSign } from "lucide-react";
 
 interface LeadFormProps {
-  quizData: Omit<Lead, "full_name" | "phone" | "email" | "dataConsent" | "ageConsent">;
+  quizData: Omit<Lead, "first_name" | "last_name" | "phone" | "email" | "dataConsent" | "ageConsent">;
   onSubmit: (data: Lead) => void;
   isPending?: boolean;
 }
 
+// Calculate recovery probability based on quiz answers
+function calculateRecoveryProbability(quizData: LeadFormProps['quizData']): number {
+  let probability = 50; // Base probability
+
+  // Company type factor
+  if (quizData.companyType === "Криптобиржа" || quizData.companyType === "Forex-брокер") {
+    probability += 15;
+  } else if (quizData.companyType === "Финансовая пирамида") {
+    probability += 10;
+  }
+
+  // Timeframe factor
+  if (quizData.fraudDate === "Менее 6 месяцев") {
+    probability += 20;
+  } else if (quizData.fraudDate === "6-12 месяцев") {
+    probability += 10;
+  }
+
+  // Documentation factor
+  if (quizData.documentation === "Да, есть все документы") {
+    probability += 15;
+  } else if (quizData.documentation === "Частично") {
+    probability += 5;
+  }
+
+  // Cap at 95% to be realistic
+  return Math.min(probability, 95);
+}
+
 export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProps) {
+  const recoveryProbability = calculateRecoveryProbability(quizData);
+
   const form = useForm<Lead>({
     resolver: zodResolver(leadSchema),
     defaultValues: {
       ...quizData,
-      full_name: "",
+      first_name: "",
+      last_name: "",
       phone: "",
       email: "",
       dataConsent: false,
@@ -47,12 +79,12 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-success/20 mb-4">
               <span className="text-3xl">✅</span>
             </div>
-            <h2 className="text-3xl font-bold text-card-foreground mb-2">
-              ОТЛИЧНО! ВЫ ПРОШЛИ ОЦЕНКУ
+            <h2 className="text-3xl font-bold text-card-foreground mb-4">
+              Вероятность возврата: <span className="text-success">{recoveryProbability}%</span>
             </h2>
-            <p className="text-muted-foreground">
-              Юрист бесплатно оценит ваше дело<br />
-              и позвонит в течение 15 минут
+            <p className="text-muted-foreground text-base">
+              На основе ваших ответов мы подготовили стартовый план действий.<br />
+              Юрист свяжется с вами в течение 15 минут, чтобы подтвердить детали и запустить процесс.
             </p>
           </div>
 
@@ -60,7 +92,7 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
             <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
-                name="full_name"
+                name="first_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Имя</FormLabel>
@@ -68,7 +100,26 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                       <Input
                         placeholder="Ваше полное имя"
                         {...field}
-                        data-testid="input-name"
+                        data-testid="input-firstname"
+                        className="h-12"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="last_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Фамилия</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ваша фамилия"
+                        {...field}
+                        data-testid="input-lastname"
                         className="h-12"
                       />
                     </FormControl>
@@ -131,7 +182,16 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel className="text-sm font-normal cursor-pointer">
-                          Согласен на обработку данных
+                          Я согласен с{" "}
+                          <a 
+                            href="/privacy-policy" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-accent hover:underline font-medium"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Политикой конфиденциальности
+                          </a>
                         </FormLabel>
                       </div>
                     </FormItem>

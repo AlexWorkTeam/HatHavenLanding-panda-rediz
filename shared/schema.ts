@@ -19,7 +19,8 @@ export type User = typeof users.$inferSelect;
 
 // Lead schema for quiz submissions
 export const leadSchema = z.object({
-  full_name: z.string().min(1, "Имя обязательно"),
+  first_name: z.string().min(1, "Имя обязательно"),
+  last_name: z.string().min(1, "Фамилия обязательна"),
   phone: z.string().min(1, "Телефон обязателен"),
   email: z.string().email("Некорректный email"),
   companyType: z.string(),
