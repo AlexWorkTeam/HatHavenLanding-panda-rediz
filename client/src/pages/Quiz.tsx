@@ -9,12 +9,12 @@ import type { Lead } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 // Import quiz step images
-import step1Image from "@assets/Снимок экрана 2025-11-24 в 10.03.54_1763967884552.png";
-import step2Image from "@assets/Снимок экрана 2025-11-24 в 10.04.00_1763967884553.png";
-import step3Image from "@assets/Снимок экрана 2025-11-24 в 10.04.06_1763967884553.png";
-import step4Image from "@assets/Снимок экрана 2025-11-24 в 10.04.10_1763967884554.png";
-import step5Image from "@assets/Снимок экрана 2025-11-24 в 10.04.13_1763967884555.png";
-import step6Image from "@assets/Снимок экрана 2025-11-24 в 10.04.17_1763967884555.png";
+import step1Image from "@assets/Шаг 1_1763969417602.png";
+import step2Image from "@assets/Шаг 2_1763969417602.png";
+import step3Image from "@assets/Шаг 3_1763969417603.png";
+import step4Image from "@assets/Шаг 4_1763969417604.png";
+import step5Image from "@assets/Шаг 5_1763969417604.png";
+import step6Image from "@assets/Шаг 6_1763969417605.png";
 
 const quizSteps = [
   {
