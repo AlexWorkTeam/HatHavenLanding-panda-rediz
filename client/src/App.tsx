@@ -7,6 +7,8 @@ import Landing from "@/pages/Landing";
 import Quiz from "@/pages/Quiz";
 import ThankYou from "@/pages/ThankYou";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfUse from "@/pages/TermsOfUse";
+import Disclaimer from "@/pages/Disclaimer";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +18,8 @@ function Router() {
       <Route path="/quiz" component={Quiz} />
       <Route path="/thank-you" component={ThankYou} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms-of-use" component={TermsOfUse} />
+      <Route path="/disclaimer" component={Disclaimer} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import HeroSection from "@/components/HeroSection";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import Footer from "@/components/Footer";
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -25,13 +26,14 @@ export default function Landing() {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <HeroSection onStartQuiz={handleStartQuiz} />
+      <Footer />
       <ExitIntentPopup
         open={showExitPopup}
         onOpenChange={setShowExitPopup}
         onStartQuiz={handleStartQuiz}
       />
-    </>
+    </div>
   );
 }
