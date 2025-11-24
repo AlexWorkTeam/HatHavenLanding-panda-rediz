@@ -181,8 +181,23 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                       <Input
                         placeholder="+ 1 (555) 123-4567"
                         value={field.value ? formatPhoneNumber(field.value) : ''}
+                        onFocus={(e) => {
+                          if (!field.value || field.value === '') {
+                            field.onChange('1');
+                          }
+                        }}
                         onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, '');
+                          let value = e.target.value.replace(/\D/g, '');
+                          
+                          if (value.length === 0) {
+                            field.onChange('');
+                            return;
+                          }
+                          
+                          if (!value.startsWith('1')) {
+                            value = '1' + value;
+                          }
+                          
                           if (value.length <= 11) {
                             field.onChange(value);
                           }
