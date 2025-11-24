@@ -11,3 +11,16 @@ Quiz Answers:
   - Payment Method: Платёжные приложения
   - Documentation: Ничего не сохранилось
 -------------------
+
+[2025-11-24T10:06:41.209Z]
+Name: undefined
+Phone: +1 (555) 123-4567
+Email: ivan.ivanov@example.com
+Quiz Answers:
+  - Company Type: Инвестиционная компания
+  - Fraud Date: Менее 3 месяцев назад
+  - Money Status: Заморожены на счету
+  - Amount: До $5,000
+  - Payment Method: Кредитная/дебетовая карта
+  - Documentation: Да, есть оригиналы
+-------------------
