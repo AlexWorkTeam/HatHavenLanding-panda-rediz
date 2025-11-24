@@ -100,8 +100,10 @@ export default function HeroSection({ onStartQuiz }: HeroSectionProps) {
               <span className="sm:hidden">🔥 Узнать, можно ли вернуть деньги →</span>
             </Button>
 
-            <p className="text-sm sm:text-base text-primary-foreground/80 mb-2 px-4">
-              Бесплатная оценка за 24 часа | Платите только с результата
+            <p className="text-sm sm:text-base text-primary-foreground/80 mb-2 px-4 leading-relaxed">
+              Бесплатная оценка за 24 часа<br className="sm:hidden" />
+              <span className="sm:hidden"> </span><span className="hidden sm:inline"> | </span>
+              Платите только с результата
             </p>
             
             {/* Live counter */}
