@@ -176,10 +176,10 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Телефон (США)</FormLabel>
+                    <FormLabel>Телефон</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="(555) 123-4567"
+                        placeholder="+ 1 (555) 123-4567"
                         value={field.value ? formatPhoneNumber(field.value) : ''}
                         onChange={(e) => {
                           const value = e.target.value.replace(/\D/g, '');
