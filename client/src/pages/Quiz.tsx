@@ -218,6 +218,7 @@ export default function Quiz() {
   };
 
   const handleAnalysisComplete = () => {
+    setShowAnalyzing(false);
     setShowLeadForm(true);
   };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
@@ -19,6 +19,11 @@ const analysisSteps = [
 export default function AnalyzingScreen({ onComplete, recoveryProbability }: AnalyzingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   useEffect(() => {
     const totalDuration = 3500;
@@ -27,33 +32,33 @@ export default function AnalyzingScreen({ onComplete, recoveryProbability }: Ana
     const stepDuration = totalDuration / analysisSteps.length;
 
     const progressTimer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressTimer);
-          setTimeout(() => {
-            onComplete();
-          }, 500);
-          return 100;
-        }
-        return Math.min(prev + increment, 100);
-      });
+      setProgress((prev) => Math.min(prev + increment, 100));
     }, interval);
 
     const stepTimer = setInterval(() => {
       setCurrentStep((prev) => {
         if (prev >= analysisSteps.length - 1) {
-          clearInterval(stepTimer);
           return prev;
         }
         return prev + 1;
       });
     }, stepDuration);
 
+    const completeTimer = setTimeout(() => {
+      clearInterval(progressTimer);
+      clearInterval(stepTimer);
+      setProgress(100);
+      setTimeout(() => {
+        onCompleteRef.current();
+      }, 500);
+    }, totalDuration);
+
     return () => {
       clearInterval(progressTimer);
       clearInterval(stepTimer);
+      clearTimeout(completeTimer);
     };
-  }, [onComplete]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
