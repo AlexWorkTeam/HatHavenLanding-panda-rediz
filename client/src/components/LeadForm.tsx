@@ -132,18 +132,27 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
     <div className="min-h-screen bg-background flex items-center justify-center p-3 sm:p-4">
       <div className="w-full max-w-2xl">
         <Card className="bg-card backdrop-blur-xl border-2 shadow-2xl p-4 sm:p-6 md:p-10">
-          <div className="text-center mb-6 sm:mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-success/20 mb-3 sm:mb-4">
-              <span className="text-2xl sm:text-3xl">✅</span>
+          <div className="relative mb-6 sm:mb-8 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-success/10 via-accent/5 to-secondary/10 border-2 border-success/20 backdrop-blur-sm overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,197,94,0.1),transparent_50%)]"></div>
+            <div className="relative z-10 text-center">
+              <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-success/20 mb-3 sm:mb-4 shadow-lg">
+                <span className="text-2xl sm:text-3xl">✅</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-card-foreground mb-3 sm:mb-4 px-2">
+                Вероятность возврата: <span className="text-success">{recoveryProbability}%</span>
+              </h2>
+              <p className="text-muted-foreground text-sm sm:text-base px-2 leading-relaxed">
+                На основе ваших ответов мы подготовили стартовый план действий.
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
+                Юрист свяжется с вами в течение 15 минут, чтобы подтвердить детали и запустить процесс.
+              </p>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-card-foreground mb-3 sm:mb-4 px-2">
-              Вероятность возврата: <span className="text-success">{recoveryProbability}%</span>
-            </h2>
-            <p className="text-muted-foreground text-sm sm:text-base px-2 leading-relaxed">
-              На основе ваших ответов мы подготовили стартовый план действий.
-              <br className="hidden sm:block" />
-              <span className="sm:hidden"> </span>
-              Юрист свяжется с вами в течение 15 минут, чтобы подтвердить детали и запустить процесс.
+          </div>
+
+          <div className="text-center mb-6 sm:mb-8">
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              Оставьте заявку, и наши юристы проанализируют вашу ситуацию и предложат план действий.
             </p>
           </div>
 
@@ -300,12 +309,6 @@ export default function LeadForm({ quizData, onSubmit, isPending }: LeadFormProp
                     </FormItem>
                   )}
                 />
-              </div>
-
-              <div className="text-center py-4">
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                  Оставьте заявку, и наши юристы проанализируют вашу ситуацию и предложат план действий.
-                </p>
               </div>
 
               <Button
