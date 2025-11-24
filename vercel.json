@@ -6,8 +6,8 @@
   "framework": null,
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index"
+      "source": "/api/leads",
+      "destination": "/api/leads"
     },
     {
       "source": "/(.*)",
