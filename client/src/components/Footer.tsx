@@ -12,7 +12,7 @@ export default function Footer() {
         {/* Company Info */}
         <div className="text-center mb-3 sm:mb-4">
           <p className="text-xs sm:text-sm text-card-foreground mb-1">
-            Copyright © 2025 Cordoba - All Rights Reserved
+            Copyright © 2025 All Rights Reserved
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground">
             Address: 102 NE 2nd St, Boca Raton, FL 33432
