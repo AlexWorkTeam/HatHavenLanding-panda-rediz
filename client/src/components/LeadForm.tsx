@@ -26,6 +26,26 @@ function formatPhoneNumber(value: string): string {
   
   if (digits.length === 0) return '';
   
+  // Always format US numbers with +1 prefix
+  if (digits.startsWith('1')) {
+    const phoneDigits = digits.slice(1); // Remove the '1' country code
+    
+    if (phoneDigits.length === 0) {
+      return '+1 ';
+    }
+    
+    if (phoneDigits.length <= 3) {
+      return `+1 (${phoneDigits}`;
+    }
+    
+    if (phoneDigits.length <= 6) {
+      return `+1 (${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3)}`;
+    }
+    
+    return `+1 (${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3, 6)}-${phoneDigits.slice(6, 10)}`;
+  }
+  
+  // Fallback for numbers without country code (shouldn't happen with our logic)
   if (digits.length <= 3) {
     return `(${digits}`;
   }
@@ -34,11 +54,7 @@ function formatPhoneNumber(value: string): string {
     return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
   }
   
-  if (digits.length <= 10) {
-    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-  }
-  
-  return `+${digits.slice(0, 1)} (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 11)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
 }
 
 // Calculate recovery probability based on quiz answers
