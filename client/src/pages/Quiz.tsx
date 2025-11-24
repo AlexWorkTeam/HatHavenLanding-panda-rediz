@@ -5,8 +5,66 @@ import { apiRequest } from "@/lib/queryClient";
 import QuizStep from "@/components/QuizStep";
 import QuizOption from "@/components/QuizOption";
 import LeadForm from "@/components/LeadForm";
+import AnalyzingScreen from "@/components/AnalyzingScreen";
 import type { Lead } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+
+// Calculate recovery probability based on quiz answers
+function calculateRecoveryProbability(quizData: {
+  companyType: string;
+  fraudDate: string;
+  moneyStatus: string;
+  amount: string;
+  paymentMethod: string;
+  documentation: string;
+}): number {
+  let probability = 75; // Base probability
+
+  // Company type factor (up to +8%)
+  if (quizData.companyType === "Криптобиржа или кошелёк") {
+    probability += 8;
+  } else if (quizData.companyType === "Форекс/Бинарные опционы") {
+    probability += 7;
+  } else if (quizData.companyType === "Инвестиционная компания") {
+    probability += 6;
+  } else {
+    probability += 4;
+  }
+
+  // Timeframe factor (up to +10%)
+  if (quizData.fraudDate === "Менее 3 месяцев назад") {
+    probability += 10;
+  } else if (quizData.fraudDate === "3-6 месяцев назад") {
+    probability += 8;
+  } else if (quizData.fraudDate === "6-12 месяцев назад") {
+    probability += 5;
+  } else if (quizData.fraudDate === "1-3 года назад") {
+    probability += 2;
+  }
+
+  // Documentation factor (up to +7%)
+  if (quizData.documentation === "Да, есть оригиналы") {
+    probability += 7;
+  } else if (quizData.documentation === "Есть электронные копии") {
+    probability += 5;
+  } else if (quizData.documentation === "Есть только переписка") {
+    probability += 2;
+  }
+
+  // Payment method factor (up to +3%)
+  if (
+    quizData.paymentMethod === "Кредитная/дебетовая карта" ||
+    quizData.paymentMethod === "Wire Transfer" ||
+    quizData.paymentMethod === "ACH Transfer"
+  ) {
+    probability += 3;
+  } else if (quizData.paymentMethod === "Криптовалюта") {
+    probability += 1;
+  }
+
+  // Cap at 95% to be realistic
+  return Math.min(probability, 95);
+}
 
 // Import quiz step images
 import step1Image from "@assets/step-1.png";
@@ -105,6 +163,7 @@ export default function Quiz() {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(6).fill(""));
+  const [showAnalyzing, setShowAnalyzing] = useState(false);
   const [showLeadForm, setShowLeadForm] = useState(false);
   const autoAdvanceTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -152,10 +211,14 @@ export default function Quiz() {
 
   const handleNext = () => {
     if (currentStep === quizSteps.length - 1) {
-      setShowLeadForm(true);
+      setShowAnalyzing(true);
     } else {
       setCurrentStep(currentStep + 1);
     }
+  };
+
+  const handleAnalysisComplete = () => {
+    setShowLeadForm(true);
   };
 
   const handleBack = () => {
@@ -168,16 +231,26 @@ export default function Quiz() {
     submitLead.mutate(data);
   };
 
-  if (showLeadForm) {
-    const quizData = {
-      companyType: answers[0],
-      fraudDate: answers[1],
-      moneyStatus: answers[2],
-      amount: answers[3],
-      paymentMethod: answers[4],
-      documentation: answers[5],
-    };
+  const quizData = {
+    companyType: answers[0],
+    fraudDate: answers[1],
+    moneyStatus: answers[2],
+    amount: answers[3],
+    paymentMethod: answers[4],
+    documentation: answers[5],
+  };
 
+  if (showAnalyzing) {
+    const recoveryProbability = calculateRecoveryProbability(quizData);
+    return (
+      <AnalyzingScreen 
+        onComplete={handleAnalysisComplete}
+        recoveryProbability={recoveryProbability}
+      />
+    );
+  }
+
+  if (showLeadForm) {
     return (
       <LeadForm
         quizData={quizData}
