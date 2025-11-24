@@ -9,3 +9,4 @@ leads_log.txt
 .env
 .env.local
 .env.*.local
+.vercel

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckCircle2, TrendingUp } from "lucide-react";
-import heroImage from "@assets/hero-main.png";
+import heroImage from "@assets/hero-main.jpg";
 
 const cases = [
   {
