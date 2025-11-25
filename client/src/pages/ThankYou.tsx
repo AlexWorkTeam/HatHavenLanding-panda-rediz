@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Phone, Mail, Clock } from "lucide-react";
@@ -5,6 +6,15 @@ import { useLocation } from "wouter";
 
 export default function ThankYou() {
   const [, setLocation] = useLocation();
+
+  // Event snippet for lid usru_cbs-solutions.guru conversion page
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {
+        'send_to': 'AW-17703659591/hJiRCNjb1cYbEMfQ4flB'
+      });
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
