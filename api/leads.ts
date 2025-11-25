@@ -61,12 +61,42 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     console.log('Lead created:', lead.id);
     
+    // Build full landing URL with UTM parameters
+    // Priority: 1) Referer header (contains full URL with query params), 2) Request URL, 3) Fallback
+    const referer = req.headers.referer || req.headers.referrer;
+    let landingUrl: string;
+    
+    if (referer) {
+      // Referer contains the full URL of the page that made the request
+      // This includes query parameters (UTM tags)
+      try {
+        const refererUrl = new URL(referer);
+        // Keep origin, pathname, and search (query params)
+        landingUrl = `${refererUrl.origin}${refererUrl.pathname}${refererUrl.search}`;
+        console.log('Using referer URL:', landingUrl);
+      } catch (e) {
+        // If referer is not a valid URL, use it as-is
+        landingUrl = referer;
+        console.log('Using referer as-is:', landingUrl);
+      }
+    } else {
+      // Fallback: construct from request headers and URL
+      const protocol = req.headers['x-forwarded-proto'] || 'https';
+      const host = req.headers['x-forwarded-host'] || req.headers.host || process.env.VERCEL_URL || 'hathaven-landing.vercel.app';
+      const requestUrl = req.url || '/';
+      const queryString = requestUrl.includes('?') ? requestUrl.substring(requestUrl.indexOf('?')) : '';
+      landingUrl = `${protocol}://${host}${queryString}`;
+      console.log('Constructed landing URL from request:', landingUrl);
+    }
+    
+    console.log('Final landing URL:', landingUrl);
+    
     // Send to webhook
     const webhookUrl = "https://n8n.srv989148.hstgr.cloud/webhook/push-lead";
     const webhookPayload = {
       email: lead.email,
       full_name: `${lead.first_name} ${lead.last_name}`,
-      landing: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "hathaven-landing.vercel.app",
+      landing: landingUrl,
       country: "US",
       landing_name: "legal-refund-us-ru",
       user_id: 3,
