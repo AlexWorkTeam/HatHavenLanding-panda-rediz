@@ -9,6 +9,16 @@ export default function Landing() {
   const [showExitPopup, setShowExitPopup] = useState(false);
   const [hasShownExitPopup, setHasShownExitPopup] = useState(false);
 
+  // Save landing URL with UTM parameters on first load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      // Save the full URL with UTM parameters to sessionStorage
+      // This will be used when submitting the form
+      sessionStorage.setItem('landingUrl', currentUrl);
+    }
+  }, []);
+
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 0 && !hasShownExitPopup) {

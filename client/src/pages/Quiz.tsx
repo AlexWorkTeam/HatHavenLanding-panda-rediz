@@ -169,10 +169,12 @@ export default function Quiz() {
 
   const submitLead = useMutation({
     mutationFn: async (data: Lead) => {
-      // Get full URL with UTM parameters from current page
-      const landingUrl = typeof window !== 'undefined' 
-        ? window.location.href 
-        : '';
+      // Get full URL with UTM parameters
+      // Priority: 1) Saved landing URL from sessionStorage (from first page load), 2) Current page URL
+      let landingUrl = '';
+      if (typeof window !== 'undefined') {
+        landingUrl = sessionStorage.getItem('landingUrl') || window.location.href;
+      }
       
       // Add landing URL to request payload
       const payload = {
