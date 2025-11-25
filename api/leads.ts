@@ -53,8 +53,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     console.log('Received request:', JSON.stringify(req.body, null, 2));
     
-    // Validate the request body
-    const validatedData = leadSchema.parse(req.body);
+    // Extract landing URL from request body if provided (from client)
+    const landingFromBody = (req.body as any)?.landing;
+    
+    // Validate the request body (without landing field)
+    const { landing: _, ...bodyWithoutLanding } = req.body as any;
+    const validatedData = leadSchema.parse(bodyWithoutLanding);
     
     // Save lead
     const lead = createLead(validatedData);
@@ -62,35 +66,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log('Lead created:', lead.id);
     
     // Build full landing URL with UTM parameters
-    // Priority: 1) Referer header (contains full URL with query params), 2) Request URL, 3) Fallback
-    const refererHeader = req.headers.referer || req.headers.referrer;
-    const referer = Array.isArray(refererHeader) ? refererHeader[0] : refererHeader;
+    // Priority: 1) Landing from request body (from client with full URL + UTM), 2) Referer header, 3) Request URL, 4) Fallback
     let landingUrl: string;
     
-    if (referer) {
-      // Referer contains the full URL of the page that made the request
-      // This includes query parameters (UTM tags)
-      try {
-        const refererUrl = new URL(referer);
-        // Keep origin, pathname, and search (query params)
-        landingUrl = `${refererUrl.origin}${refererUrl.pathname}${refererUrl.search}`;
-        console.log('Using referer URL:', landingUrl);
-      } catch (e) {
-        // If referer is not a valid URL, use it as-is
-        landingUrl = referer;
-        console.log('Using referer as-is:', landingUrl);
-      }
+    if (landingFromBody && typeof landingFromBody === 'string') {
+      // Use landing URL from client (contains full URL with UTM parameters)
+      landingUrl = landingFromBody;
+      console.log('Using landing URL from request body:', landingUrl);
     } else {
-      // Fallback: construct from request headers and URL
-      const protocol = Array.isArray(req.headers['x-forwarded-proto']) 
-        ? req.headers['x-forwarded-proto'][0] 
-        : req.headers['x-forwarded-proto'] || 'https';
-      const hostHeader = req.headers['x-forwarded-host'] || req.headers.host;
-      const host = Array.isArray(hostHeader) ? hostHeader[0] : hostHeader || process.env.VERCEL_URL || 'hathaven-landing.vercel.app';
-      const requestUrl = req.url || '/';
-      const queryString = requestUrl.includes('?') ? requestUrl.substring(requestUrl.indexOf('?')) : '';
-      landingUrl = `${protocol}://${host}${queryString}`;
-      console.log('Constructed landing URL from request:', landingUrl);
+      // Fallback to referer or construct from headers
+      const refererHeader = req.headers.referer || req.headers.referrer;
+      const referer = Array.isArray(refererHeader) ? refererHeader[0] : refererHeader;
+      
+      if (referer) {
+        // Referer contains the full URL of the page that made the request
+        // This includes query parameters (UTM tags)
+        try {
+          const refererUrl = new URL(referer);
+          // Keep origin, pathname, and search (query params)
+          landingUrl = `${refererUrl.origin}${refererUrl.pathname}${refererUrl.search}`;
+          console.log('Using referer URL:', landingUrl);
+        } catch (e) {
+          // If referer is not a valid URL, use it as-is
+          landingUrl = referer;
+          console.log('Using referer as-is:', landingUrl);
+        }
+      } else {
+        // Fallback: construct from request headers and URL
+        const protocol = Array.isArray(req.headers['x-forwarded-proto']) 
+          ? req.headers['x-forwarded-proto'][0] 
+          : req.headers['x-forwarded-proto'] || 'https';
+        const hostHeader = req.headers['x-forwarded-host'] || req.headers.host;
+        const host = Array.isArray(hostHeader) ? hostHeader[0] : hostHeader || process.env.VERCEL_URL || 'hathaven-landing.vercel.app';
+        const requestUrl = req.url || '/';
+        const queryString = requestUrl.includes('?') ? requestUrl.substring(requestUrl.indexOf('?')) : '';
+        landingUrl = `${protocol}://${host}${queryString}`;
+        console.log('Constructed landing URL from request:', landingUrl);
+      }
     }
     
     console.log('Final landing URL:', landingUrl);

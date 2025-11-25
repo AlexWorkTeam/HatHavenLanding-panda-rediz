@@ -169,7 +169,18 @@ export default function Quiz() {
 
   const submitLead = useMutation({
     mutationFn: async (data: Lead) => {
-      return await apiRequest("POST", "/api/leads", data);
+      // Get full URL with UTM parameters from current page
+      const landingUrl = typeof window !== 'undefined' 
+        ? window.location.href 
+        : '';
+      
+      // Add landing URL to request payload
+      const payload = {
+        ...data,
+        landing: landingUrl,
+      };
+      
+      return await apiRequest("POST", "/api/leads", payload);
     },
     onSuccess: () => {
       toast({

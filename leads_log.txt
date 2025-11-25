@@ -89,3 +89,29 @@ Quiz Answers:
   - Payment Method: Wire Transfer
   - Documentation: Есть только переписка
 -------------------
+
+[2025-11-24T21:56:44.897Z]
+Name: Frankie Milton
+Phone: 15143534534
+Email: 234test_002004302@204.com
+Quiz Answers:
+  - Company Type: Букмекер
+  - Fraud Date: 3-6 месяцев назад
+  - Money Status: Мошенники не выходят на связь
+  - Amount: $5,000 - $25,000
+  - Payment Method: Wire Transfer
+  - Documentation: Есть электронные копии
+-------------------
+
+[2025-11-24T21:57:41.888Z]
+Name: Frankie Milton
+Phone: 13476021859
+Email: 33test_0020002@204.com
+Quiz Answers:
+  - Company Type: Букмекер
+  - Fraud Date: 6-12 месяцев назад
+  - Money Status: Мошенники не выходят на связь
+  - Amount: $100,000 - $500,000
+  - Payment Method: Криптовалюта
+  - Documentation: Есть электронные копии
+-------------------
