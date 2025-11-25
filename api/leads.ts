@@ -63,7 +63,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     // Build full landing URL with UTM parameters
     // Priority: 1) Referer header (contains full URL with query params), 2) Request URL, 3) Fallback
-    const referer = req.headers.referer || req.headers.referrer;
+    const refererHeader = req.headers.referer || req.headers.referrer;
+    const referer = Array.isArray(refererHeader) ? refererHeader[0] : refererHeader;
     let landingUrl: string;
     
     if (referer) {
@@ -81,8 +82,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     } else {
       // Fallback: construct from request headers and URL
-      const protocol = req.headers['x-forwarded-proto'] || 'https';
-      const host = req.headers['x-forwarded-host'] || req.headers.host || process.env.VERCEL_URL || 'hathaven-landing.vercel.app';
+      const protocol = Array.isArray(req.headers['x-forwarded-proto']) 
+        ? req.headers['x-forwarded-proto'][0] 
+        : req.headers['x-forwarded-proto'] || 'https';
+      const hostHeader = req.headers['x-forwarded-host'] || req.headers.host;
+      const host = Array.isArray(hostHeader) ? hostHeader[0] : hostHeader || process.env.VERCEL_URL || 'hathaven-landing.vercel.app';
       const requestUrl = req.url || '/';
       const queryString = requestUrl.includes('?') ? requestUrl.substring(requestUrl.indexOf('?')) : '';
       landingUrl = `${protocol}://${host}${queryString}`;
