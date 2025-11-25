@@ -54,11 +54,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log('Received request:', JSON.stringify(req.body, null, 2));
     
     // Extract landing URL from request body if provided (from client)
-    const landingFromBody = (req.body as any)?.landing;
+    const requestBody = req.body as any;
+    const landingFromBody = requestBody?.landing;
     
     // Validate the request body (without landing field)
-    const { landing: _, ...bodyWithoutLanding } = req.body as any;
-    const validatedData = leadSchema.parse(bodyWithoutLanding);
+    // Create a copy without landing to avoid mutating the original
+    const bodyForValidation = { ...requestBody };
+    delete bodyForValidation.landing;
+    
+    const validatedData = leadSchema.parse(bodyForValidation);
     
     // Save lead
     const lead = createLead(validatedData);
