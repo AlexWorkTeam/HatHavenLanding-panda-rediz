@@ -7,11 +7,11 @@ import { useLocation } from "wouter";
 export default function ThankYou() {
   const [, setLocation] = useLocation();
 
-  // Event snippet for conversion page
+  // Event snippet for lid usru_adrservices.pro conversion page
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'conversion', {
-        'send_to': 'AW-xxxxxxxxx/xxxxxxxxx'
+        'send_to': 'AW-17686188611/L3B5CLWh2MgbEMOkt_FB'
       });
     }
   }, []);
