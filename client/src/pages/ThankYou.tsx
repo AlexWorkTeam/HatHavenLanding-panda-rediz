@@ -3,16 +3,23 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Phone, Mail, Clock } from "lucide-react";
 import { useLocation } from "wouter";
+import { googleAdsConfig } from "@/config/googleAds";
 
 export default function ThankYou() {
   const [, setLocation] = useLocation();
 
-  // Event snippet for lid usru_adrservices.pro conversion page
+  // Event snippet for conversion page - uses domain-based configuration
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'conversion', {
-        'send_to': 'AW-17686188611/L3B5CLWh2MgbEMOkt_FB'
-      });
+      const conversionId = googleAdsConfig.conversionId;
+      const conversionLabel = googleAdsConfig.conversionLabel;
+      
+      // Only send conversion event if not using placeholder
+      if (conversionId !== 'AW-xxxxxxxxx' && conversionLabel !== 'xxxxxxxxx') {
+        (window as any).gtag('event', 'conversion', {
+          'send_to': `${conversionId}/${conversionLabel}`
+        });
+      }
     }
   }, []);
 

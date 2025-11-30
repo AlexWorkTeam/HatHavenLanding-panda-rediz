@@ -33,12 +33,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Manrope:wght@700&display=swap" rel="stylesheet">
     
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17686188611"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-17686188611');
+      // Determine Google Ads conversion ID based on domain
+      (function() {
+        var hostname = window.location.hostname;
+        var conversionId = 'AW-xxxxxxxxx'; // Default placeholder
+        
+        // Main production project - keep existing codes
+        if (hostname.includes('hathaven-landing') || hostname.includes('legal-refund')) {
+          conversionId = 'AW-17686188611';
+        }
+        // New projects use placeholders (will be configured via environment variables later)
+        // ecb-support.guru and eu-cbd.guru will use AW-xxxxxxxxx
+        
+        // Load gtag.js
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + conversionId;
+        document.head.appendChild(script);
+        
+        // Initialize gtag
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', conversionId);
+      })();
     </script>
   </head>
   <body>
